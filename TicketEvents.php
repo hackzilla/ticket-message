@@ -1,8 +1,8 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle;
+namespace Hackzilla\TicketMessage;
 
-final class TicketEvents
+class TicketEvents
 {
     /**
      * The hackzilla.ticket.create event is thrown each time an ticket is created
@@ -15,7 +15,7 @@ final class TicketEvents
      * in the system.
      *
      * The event listeners receives an
-     * Hackzilla\Bundle\TicketBundle\Event\TicketEvent instance.
+     * Hackzilla\TicketMessage\Event\TicketEvent instance.
      *
      * @var string
      */

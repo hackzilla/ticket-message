@@ -1,6 +1,6 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle\Model;
+namespace Hackzilla\TicketMessage\Model;
 
 interface TicketInterface
 {

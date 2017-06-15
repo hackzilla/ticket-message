@@ -1,6 +1,6 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle;
+namespace Hackzilla\TicketMessage;
 
 class TicketRole
 {

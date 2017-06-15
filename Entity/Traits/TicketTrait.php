@@ -1,11 +1,10 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle\Entity\Traits;
+namespace Hackzilla\TicketMessage\Entity\Traits;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Hackzilla\Bundle\TicketBundle\Model\TicketMessageInterface;
-use Hackzilla\Bundle\TicketBundle\Model\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
+use Hackzilla\TicketMessage\Model\TicketMessageInterface;
+use Hackzilla\TicketMessage\Model\UserInterface;
 
 /**
  * Ticket Trait.
@@ -16,12 +15,20 @@ trait TicketTrait
      * @var int
      */
     protected $userCreated;
+
+    /**
+     * @var UserInterface
+     */
     protected $userCreatedObject;
 
     /**
      * @var int
      */
     protected $lastUser;
+
+    /**
+     * @var UserInterface
+     */
     protected $lastUserObject;
 
     /**
@@ -30,8 +37,6 @@ trait TicketTrait
     protected $lastMessage;
 
     /**
-     * @Assert\NotBlank()
-     *
      * @var string
      */
     protected $subject;
@@ -48,10 +53,7 @@ trait TicketTrait
 
 
     /**
-     * @Assert\Count(min = "1")
-     * @Assert\Valid()
-     *
-     * @var ArrayCollection
+     * @var TicketMessageInterface[]
      */
     protected $messages;
 
@@ -63,7 +65,7 @@ trait TicketTrait
     public function __construct()
     {
         $this->setCreatedAt(new \DateTime());
-        $this->messages = new ArrayCollection();
+        $this->messages = [];
     }
 
     /**
@@ -339,7 +341,7 @@ trait TicketTrait
      */
     public function addMessage(TicketMessageInterface $message)
     {
-        $this->messages[] = $message;
+        $this->messages[$message->getId()] = $message;
 
         return $this;
     }
@@ -353,7 +355,7 @@ trait TicketTrait
      */
     public function removeMessage(TicketMessageInterface $message)
     {
-        $this->messages->removeElement($message);
+        unset($this->messages[$message->getId()]);
 
         return $this;
     }

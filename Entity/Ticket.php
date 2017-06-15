@@ -1,9 +1,9 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle\Entity;
+namespace Hackzilla\TicketMessage\Entity;
 
-use Hackzilla\Bundle\TicketBundle\Entity\Traits\TicketTrait;
-use Hackzilla\Bundle\TicketBundle\Model\TicketInterface;
+use Hackzilla\TicketMessage\Entity\Traits\TicketTrait;
+use Hackzilla\TicketMessage\Model\TicketInterface;
 
 /**
  * Ticket.

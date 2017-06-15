@@ -1,12 +1,11 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle\Tests\Entity;
+namespace Hackzilla\TicketMessage\Tests\Entity;
 
-use Hackzilla\Bundle\TicketBundle\Entity\Ticket;
-use Hackzilla\Bundle\TicketBundle\Model\TicketMessageInterface;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Hackzilla\TicketMessage\Entity\Ticket;
+use Hackzilla\TicketMessage\Model\TicketMessageInterface;
 
-class TicketTest extends WebTestCase
+class TicketTest extends \PHPUnit_Framework_TestCase
 {
     private $object;
 

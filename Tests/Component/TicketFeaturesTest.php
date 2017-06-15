@@ -1,13 +1,12 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle\Tests\Extension;
+namespace Hackzilla\TicketMessage\Tests\Extension;
 
-use Hackzilla\Bundle\TicketBundle\Component\TicketFeatures;
-use Hackzilla\Bundle\TicketBundle\Entity\TicketMessage;
-use Hackzilla\Bundle\TicketBundle\Entity\TicketMessageWithAttachment;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Hackzilla\TicketMessage\Component\TicketFeatures;
+use Hackzilla\TicketMessage\Entity\TicketMessage;
+use Hackzilla\TicketMessage\Entity\TicketMessageWithAttachment;
 
-class TicketFeaturesTest extends WebTestCase
+class TicketFeaturesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider constructProvider

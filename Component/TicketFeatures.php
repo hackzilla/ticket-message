@@ -1,11 +1,17 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle\Component;
+namespace Hackzilla\TicketMessage\Component;
 
-use Hackzilla\Bundle\TicketBundle\Model\TicketFeature\MessageAttachmentInterface;
+use Hackzilla\TicketMessage\Model\TicketFeature\MessageAttachmentInterface;
 
 class TicketFeatures
 {
+    const TICKET_ATTACHMENT = 'attachment';
+
+    const FEATURES = [
+        self::TICKET_ATTACHMENT => 'TICKET_ATTACHMENT',
+    ];
+
     private $features;
 
     /**
@@ -14,9 +20,9 @@ class TicketFeatures
      */
     public function __construct(array $features, $messageClass)
     {
-        if (!empty($features['attachment']) && !is_a($messageClass, MessageAttachmentInterface::class, true)
+        if (!empty($features[self::TICKET_ATTACHMENT]) && !is_a($messageClass, MessageAttachmentInterface::class, true)
         ) {
-            $features['attachment'] = false;
+            $features[self::TICKET_ATTACHMENT] = false;
         }
 
         $this->features = $features;

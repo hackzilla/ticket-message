@@ -1,21 +1,32 @@
 <?php
 
-namespace Hackzilla\Bundle\TicketBundle\Manager;
+namespace Hackzilla\TicketMessage\Manager;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Hackzilla\Bundle\TicketBundle\Entity\TicketMessage;
-use Hackzilla\Bundle\TicketBundle\Model\TicketInterface;
-use Hackzilla\Bundle\TicketBundle\Model\TicketMessageInterface;
-use Hackzilla\Bundle\TicketBundle\TicketRole;
-use Symfony\Component\Translation\TranslatorInterface;
+use Hackzilla\TicketMessage\Entity\TicketMessage;
+use Hackzilla\TicketMessage\Model\TicketInterface;
+use Hackzilla\TicketMessage\Model\TicketMessageInterface;
+use Hackzilla\TicketMessage\TicketRole;
 
 class TicketManager implements TicketManagerInterface
 {
-    private $translator;
-    private $objectManager;
-    private $ticketRepository;
-    private $messageRepository;
+    /**
+     * @var StorageManagerInterface
+     */
+    private $storageManager;
+
+    /**
+     * @var EventManagerInterface $eventManager
+     */
+    private $eventManager;
+
+    /**
+     * @var string
+     */
     private $ticketClass;
+
+    /**
+     * @var string
+     */
     private $ticketMessageClass;
 
     /**
@@ -31,27 +42,25 @@ class TicketManager implements TicketManagerInterface
     }
 
     /**
-     * @param ObjectManager $om
+     * @param StorageManagerInterface $storageManager
      *
      * @return $this
      */
-    public function setEntityManager(ObjectManager $om)
+    public function setStorageManager(StorageManagerInterface $storageManager)
     {
-        $this->objectManager = $om;
-        $this->ticketRepository = $om->getRepository($this->ticketClass);
-        $this->messageRepository = $om->getRepository($this->ticketMessageClass);
+        $this->storageManager = $storageManager;
 
         return $this;
     }
 
     /**
-     * @param TranslatorInterface $translator
+     * @param EventManagerInterface $eventManager
      *
      * @return $this
      */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setEventManager(EventManagerInterface $eventManager)
     {
-        $this->translator = $translator;
+        $this->eventManager = $eventManager;
 
         return $this;
     }
@@ -80,7 +89,7 @@ class TicketManager implements TicketManagerInterface
      */
     public function createMessage(TicketInterface $ticket = null)
     {
-        /* @var TicketMessageInterface $ticket */
+        /* @var TicketMessageInterface $message */
         $message = new $this->ticketMessageClass();
 
         if ($ticket) {
@@ -110,9 +119,9 @@ class TicketManager implements TicketManagerInterface
         }
         if (!\is_null($message)) {
             $message->setTicket($ticket);
-            $this->objectManager->persist($message);
+            $this->storageManager('persist', $message);
         }
-        $this->objectManager->flush();
+        $this->storageManager('flush');
 
         return $ticket;
     }
@@ -124,18 +133,18 @@ class TicketManager implements TicketManagerInterface
      */
     public function deleteTicket(TicketInterface $ticket)
     {
-        $this->objectManager->remove($ticket);
-        $this->objectManager->flush();
+        $this->storageManager('remove', $ticket);
+        $this->storageManager('flush');
     }
 
     /**
      * Find all tickets in the database.
      *
-     * @return array|TicketInterface[]
+     * @return TicketInterface[]
      */
     public function findTickets()
     {
-        return $this->ticketRepository->findAll();
+        return $this->storageManager('findTicketsBy', []);
     }
 
     /**
@@ -147,7 +156,7 @@ class TicketManager implements TicketManagerInterface
      */
     public function getTicketById($ticketId)
     {
-        return $this->ticketRepository->find($ticketId);
+        return $this->storageManager('getTicketById', $ticketId);
     }
 
     /**
@@ -159,7 +168,7 @@ class TicketManager implements TicketManagerInterface
      */
     public function getMessageById($ticketMessageId)
     {
-        return $this->messageRepository->find($ticketMessageId);
+        return $this->storageManager('getMessageById', $ticketMessageId);
     }
 
     /**
@@ -167,125 +176,63 @@ class TicketManager implements TicketManagerInterface
      *
      * @param array $criteria
      *
-     * @return array|TicketInterface[]
+     * @return TicketInterface[]
      */
     public function findTicketsBy(array $criteria)
     {
-        return $this->ticketRepository->findBy($criteria);
+        return $this->storageManager('findTicketsBy', $criteria);
     }
 
     /**
-     * @param UserManagerInterface $userManager
-     * @param int                  $ticketStatus
-     * @param int                  $ticketPriority
+     * @param int $ticketStatus
+     * @param int $ticketPriority
      *
-     * @return mixed
+     * @return TicketInterface[]
      */
-    public function getTicketList(UserManagerInterface $userManager, $ticketStatus, $ticketPriority = null)
+    public function getTicketList($ticketStatus, $ticketPriority = null)
     {
-        $query = $this->ticketRepository->createQueryBuilder('t')
-//            ->select($this->ticketClass.' t')
-            ->orderBy('t.lastMessage', 'DESC');
-
-        switch ($ticketStatus) {
-            case TicketMessage::STATUS_CLOSED:
-                $query
-                    ->andWhere('t.status = :status')
-                    ->setParameter('status', TicketMessageInterface::STATUS_CLOSED);
-                break;
-
-            case TicketMessage::STATUS_OPEN:
-            default:
-                $query
-                    ->andWhere('t.status != :status')
-                    ->setParameter('status', TicketMessageInterface::STATUS_CLOSED);
-        }
-
-        if ($ticketPriority) {
-            $query
-                ->andWhere('t.priority = :priority')
-                ->setParameter('priority', $ticketPriority);
-        }
-
-        $user = $userManager->getCurrentUser();
-
-        if (\is_object($user)) {
-            if (!$userManager->hasRole($user, TicketRole::ADMIN)) {
-                $query
-                    ->andWhere('t.userCreated = :userId')
-                    ->setParameter('userId', $user->getId());
-            }
-        } else {
-            // anonymous user
-            $query
-                ->andWhere('t.userCreated = :userId')
-                ->setParameter('userId', 0);
-        }
-
-        return $query;
+        return $this->storageManager('getTicketList', $ticketStatus, $ticketPriority);
     }
 
     /**
      * @param int $days
      *
-     * @return mixed
+     * @return TicketInterface[]
      */
     public function getResolvedTicketOlderThan($days)
     {
-        $closeBeforeDate = new \DateTime();
-        $closeBeforeDate->sub(new \DateInterval('P'.$days.'D'));
-
-        $query = $this->ticketRepository->createQueryBuilder('t')
-//            ->select($this->ticketClass.' t')
-            ->where('t.status = :status')
-            ->andWhere('t.lastMessage < :closeBeforeDate')
-            ->setParameter('status', TicketMessageInterface::STATUS_RESOLVED)
-            ->setParameter('closeBeforeDate', $closeBeforeDate);
-
-        return $query->getQuery()->getResult();
+        return $this->storageManager('getResolvedTicketOlderThan', $days);
     }
 
     /**
-     * Lookup status code.
+     * StorageManager wrapper
      *
-     * @param string $statusStr
+     * @param string $action
+     * @param array  ...$params
      *
-     * @return int
+     * @return mixed
      */
-    public function getTicketStatus($statusStr)
+    private function storageManager($action, ...$params)
     {
-        static $statuses = false;
-
-        if ($statuses === false) {
-            $statuses = [];
-
-            foreach (TicketMessageInterface::STATUSES as $id => $value) {
-                $statuses[$id] = $this->translator->trans($value);
-            }
+        if (!$this->storageManager) {
+            return;
         }
 
-        return \array_search($statusStr, $statuses);
+        return $this->storageManager->{$action}(...$params);
     }
 
     /**
-     * Lookup priority code.
+     * EventManager wrapper
      *
-     * @param string $priorityStr
-     *
-     * @return int
+     * @param string $event
+     * @param array  ...$params
      */
-    public function getTicketPriority($priorityStr)
+    private function fireEvent($event, ...$params)
     {
-        static $priorities = false;
-
-        if ($priorities === false) {
-            $priorities = [];
-
-            foreach (TicketMessageInterface::PRIORITIES as $id => $value) {
-                $priorities[$id] = $this->translator->trans($value);
-            }
+        if (!$this->eventManager) {
+            return;
         }
 
-        return \array_search($priorityStr, $priorities);
+        $this->eventManager->handle($event, ...$params);
     }
 }
