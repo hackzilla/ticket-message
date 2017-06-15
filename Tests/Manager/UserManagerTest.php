@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManager;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
-class UserManagerTest extends \PHPUnit_Framework_TestCase
+class UserManagerTest extends \PHPUnit\Framework\TestCase
 {
     private $object;
     private $tokenStorage;

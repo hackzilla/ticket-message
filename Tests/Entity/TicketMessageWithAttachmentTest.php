@@ -4,7 +4,7 @@ namespace Hackzilla\TicketMessage\Tests\Entity;
 
 use Hackzilla\TicketMessage\Entity\TicketMessageWithAttachment;
 
-class TicketMessageWithAttachmentTest extends \PHPUnit_Framework_TestCase
+class TicketMessageWithAttachmentTest extends \PHPUnit\Framework\TestCase
 {
     private $object;
 

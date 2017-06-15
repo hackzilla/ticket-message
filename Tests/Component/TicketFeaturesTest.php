@@ -6,7 +6,7 @@ use Hackzilla\TicketMessage\Component\TicketFeatures;
 use Hackzilla\TicketMessage\Entity\TicketMessage;
 use Hackzilla\TicketMessage\Entity\TicketMessageWithAttachment;
 
-class TicketFeaturesTest extends \PHPUnit_Framework_TestCase
+class TicketFeaturesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider constructProvider
