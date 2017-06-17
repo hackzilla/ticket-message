@@ -4,7 +4,7 @@ namespace Hackzilla\TicketMessage\Component;
 
 use Hackzilla\TicketMessage\Model\TicketFeature\MessageAttachmentInterface;
 
-class TicketFeatures
+class TicketFeatures implements TicketFeatureInterface
 {
     const TICKET_ATTACHMENT = 'attachment';
 
@@ -12,35 +12,62 @@ class TicketFeatures
         self::TICKET_ATTACHMENT => 'TICKET_ATTACHMENT',
     ];
 
-    private $features;
+    private $features = [];
 
     /**
-     * @param array  $features
-     * @param string $messageClass TicketMessage class
+     * @param array $features
      */
-    public function __construct(array $features, $messageClass)
+    public function __construct(array $features = [])
     {
-        if (!empty($features[self::TICKET_ATTACHMENT]) && !is_a($messageClass, MessageAttachmentInterface::class, true)
-        ) {
-            $features[self::TICKET_ATTACHMENT] = false;
+        foreach ($features as $feature => $state) {
+            $this->setFeature($feature, $state);
         }
-
-        $this->features = $features;
     }
 
     /**
-     * Check if feature exists or whether enabled.
+     * Check if feature exists and enabled.
      *
-     * @param $feature
+     * @param string $feature
      *
      * @return bool|null
      */
     public function hasFeature($feature)
     {
+        $feature = strtoupper($feature);
+
         if (!isset($this->features[$feature])) {
             return null;
         }
 
         return $this->features[$feature];
+    }
+
+    /**
+     * set feature state
+     *
+     * @param string $feature
+     * @param bool   $state
+     *
+     * @return $this
+     */
+    public function setFeature($feature, $state = true)
+    {
+        $this->features[strtoupper($feature)] = (bool) $state;
+
+        return $this;
+    }
+
+    /**
+     * remove feature.
+     *
+     * @param string $feature
+     *
+     * @return $this
+     */
+    public function unsetFeature($feature)
+    {
+        unset($this->features[strtoupper($feature)]);
+
+        return $this;
     }
 }
