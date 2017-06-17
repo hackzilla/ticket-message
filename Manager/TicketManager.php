@@ -5,7 +5,6 @@ namespace Hackzilla\TicketMessage\Manager;
 use Hackzilla\TicketMessage\Entity\TicketMessage;
 use Hackzilla\TicketMessage\Model\TicketInterface;
 use Hackzilla\TicketMessage\Model\TicketMessageInterface;
-use Hackzilla\TicketMessage\TicketRole;
 
 class TicketManager implements TicketManagerInterface
 {

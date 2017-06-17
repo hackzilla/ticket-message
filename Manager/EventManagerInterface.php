@@ -2,8 +2,6 @@
 
 namespace Hackzilla\TicketMessage\Manager;
 
-use Hackzilla\TicketMessage\Model\TicketInterface;
-
 interface EventManagerInterface
 {
     /**

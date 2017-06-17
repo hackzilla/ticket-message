@@ -2,7 +2,6 @@
 
 namespace Hackzilla\TicketMessage\Entity\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Hackzilla\TicketMessage\Model\TicketMessageInterface;
 use Hackzilla\TicketMessage\Model\UserInterface;
 

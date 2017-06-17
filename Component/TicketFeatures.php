@@ -2,8 +2,6 @@
 
 namespace Hackzilla\TicketMessage\Component;
 
-use Hackzilla\TicketMessage\Model\TicketFeature\MessageAttachmentInterface;
-
 class TicketFeatures implements TicketFeatureInterface
 {
     const TICKET_ATTACHMENT = 'attachment';
