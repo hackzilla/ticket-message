@@ -24,13 +24,12 @@ interface TicketManagerInterface
     public function findTicketsBy(array $criteria);
 
     /**
-     * @param UserManagerInterface $userManager
-     * @param int                  $ticketStatus
-     * @param int                  $ticketPriority
+     * @param int $ticketStatus
+     * @param int $ticketPriority
      *
      * @return mixed
      */
-    public function getTicketList(UserManagerInterface $userManager, $ticketStatus, $ticketPriority = null);
+    public function getTicketList($ticketStatus, $ticketPriority = null);
 
     /**
      * @param int $days
