@@ -2,7 +2,7 @@
 
 namespace Hackzilla\TicketMessage\Model;
 
-interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface
+interface UserInterface
 {
     public function getId();
 
