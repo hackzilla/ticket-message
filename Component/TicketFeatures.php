@@ -17,8 +17,8 @@ class TicketFeatures implements TicketFeatureInterface
      */
     public function __construct(array $features = [])
     {
-        foreach ($features as $feature => $state) {
-            $this->setFeature($feature, $state);
+        foreach ($features as $feature) {
+            $this->setFeature($feature, true);
         }
     }
 
