@@ -16,9 +16,17 @@ interface StorageManagerInterface
 
     public function getMessageById($ticketMessageId);
 
-    public function findTickets();
-
-    public function findTicketsBy(array $criteria);
+    /**
+     * Finds tickets by a set of criteria.
+     *
+     * @param array      $criteria
+     * @param array|null $orderBy
+     * @param int|null   $limit
+     * @param int|null   $offset
+     *
+     * @return TicketInterface[]
+     */
+    public function findTicketsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
     /**
      * @param int $ticketStatus
