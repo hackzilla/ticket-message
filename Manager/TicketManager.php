@@ -113,13 +113,17 @@ class TicketManager implements TicketManagerInterface
      */
     public function updateTicket(TicketInterface $ticket, TicketMessageInterface $message = null)
     {
+        $this->storageManager('persist', $ticket);
+
         if (is_null($ticket->getId())) {
-            $this->objectManager->persist($ticket);
+            $this->storageManager('persist', $ticket);
         }
+
         if (!\is_null($message)) {
             $message->setTicket($ticket);
             $this->storageManager('persist', $message);
         }
+
         $this->storageManager('flush');
 
         return $ticket;
