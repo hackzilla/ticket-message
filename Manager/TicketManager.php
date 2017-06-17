@@ -5,6 +5,7 @@ namespace Hackzilla\TicketMessage\Manager;
 use Hackzilla\TicketMessage\Entity\TicketMessage;
 use Hackzilla\TicketMessage\Model\TicketInterface;
 use Hackzilla\TicketMessage\Model\TicketMessageInterface;
+use Hackzilla\TicketMessage\TicketEvents;
 
 class TicketManager implements TicketManagerInterface
 {
@@ -76,6 +77,8 @@ class TicketManager implements TicketManagerInterface
         $ticket->setPriority(TicketMessageInterface::PRIORITY_MEDIUM);
         $ticket->setStatus(TicketMessageInterface::STATUS_OPEN);
 
+        $this->fireEvent(TicketEvents::TICKET_CREATE);
+
         return $ticket;
     }
 
@@ -95,8 +98,10 @@ class TicketManager implements TicketManagerInterface
             $message->setPriority($ticket->getPriority());
             $message->setStatus($ticket->getStatus());
             $message->setTicket($ticket);
+            $this->fireEvent(TicketEvents::TICKET_CREATE);
         } else {
             $message->setStatus(TicketMessage::STATUS_OPEN);
+            $this->fireEvent(TicketEvents::TICKET_UPDATE);
         }
 
         return $message;
@@ -136,6 +141,8 @@ class TicketManager implements TicketManagerInterface
      */
     public function deleteTicket(TicketInterface $ticket)
     {
+        $this->fireEvent(TicketEvents::TICKET_DELETE);
+
         $this->storageManager('remove', $ticket);
         $this->storageManager('flush');
     }
