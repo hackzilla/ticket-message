@@ -35,4 +35,26 @@ class TicketFeaturesTest extends \PHPUnit\Framework\TestCase
             [ ['A', 'B', 'C'] ],
         ];
     }
+
+    public function testUnsetFeature()
+    {
+        $obj = new TicketFeatures(['a', 'b']);
+
+        $this->assertTrue($obj->hasFeature('a'));
+        $obj->unsetFeature('a');
+        $this->assertNull($obj->hasFeature('a'));
+
+        $this->assertTrue($obj->hasFeature('b'));
+    }
+
+    public function testSetFeature()
+    {
+        $obj = new TicketFeatures(['a', 'b']);
+
+        $this->assertTrue($obj->hasFeature('a'));
+        $obj->setFeature('a', false);
+        $this->assertFalse($obj->hasFeature('a'));
+
+        $this->assertTrue($obj->hasFeature('b'));
+    }
 }
