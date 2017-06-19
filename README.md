@@ -4,6 +4,7 @@ Simple ticket message library to add to any project.
 
 [![Build Status](https://travis-ci.org/hackzilla/ticket-message.svg?branch=master)](https://travis-ci.org/hackzilla/ticket-message)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/c99aff06-302a-4628-86f0-b794aea06b7e/mini.png)](https://insight.sensiolabs.com/projects/c99aff06-302a-4628-86f0-b794aea06b7e)
+[![Coverage Status](https://coveralls.io/repos/github/hackzilla/ticket-message/badge.svg?branch=master)](https://coveralls.io/github/hackzilla/ticket-message?branch=master)
 
 ## Requirements
 
