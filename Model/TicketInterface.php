@@ -186,7 +186,7 @@ interface TicketInterface
     /**
      * Get messages.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return TicketMessageInterface[]
      */
     public function getMessages();
 }

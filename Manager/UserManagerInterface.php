@@ -28,8 +28,8 @@ interface UserManagerInterface
     public function hasRole(UserInterface $user, $role);
 
     /**
-     * @param \Hackzilla\TicketMessage\Model\UserInterface|string $user
-     * @param TicketInterface                                     $ticket
+     * @param UserInterface|string $user
+     * @param TicketInterface      $ticket
      */
     public function hasPermission($user, TicketInterface $ticket);
 }
