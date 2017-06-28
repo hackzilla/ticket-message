@@ -5,6 +5,7 @@ namespace Hackzilla\TicketMessage\Manager;
 use Hackzilla\TicketMessage\Model\Pagination;
 use Hackzilla\TicketMessage\Model\TicketInterface;
 use Hackzilla\TicketMessage\Model\TicketMessageInterface;
+use Pagerfanta\Pagerfanta;
 
 interface TicketManagerInterface
 {
@@ -80,7 +81,7 @@ interface TicketManagerInterface
      * @param int $ticketStatus
      * @param int $ticketPriority
      *
-     * @return mixed
+     * @return Pagerfanta
      */
     public function getTicketList($ticketStatus, $ticketPriority = null);
 
