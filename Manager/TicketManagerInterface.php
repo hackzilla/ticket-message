@@ -90,4 +90,22 @@ interface TicketManagerInterface
      * @return mixed
      */
     public function getResolvedTicketOlderThan($days);
+    
+    /**
+     * Lookup status code.
+     *
+     * @param string $statusStr
+     *
+     * @return int
+     */
+    public function getTicketStatus($statusStr);
+
+    /**
+     * Lookup priority code.
+     *
+     * @param string $priorityStr
+     *
+     * @return int
+     */
+    public function getTicketPriority($priorityStr);
 }

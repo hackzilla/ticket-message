@@ -15,9 +15,14 @@ class TicketManager implements TicketManagerInterface
     private $storageManager;
 
     /**
-     * @var EventManagerInterface $eventManager
+     * @var EventManagerInterface
      */
     private $eventManager;
+
+    /**
+     * @var TranslateManagerInterface
+     */
+    private $translateManager;
 
     /**
      * @var string
@@ -63,6 +68,34 @@ class TicketManager implements TicketManagerInterface
         $this->eventManager = $eventManager;
 
         return $this;
+    }
+
+    /**
+     * @param TranslateManagerInterface $translateManager
+     *
+     * @return $this
+     */
+    public function setTranslateManager(TranslateManagerInterface $translateManager)
+    {
+        $this->translateManager = $translateManager;
+
+        return $this;
+    }
+
+    /**
+     * Translate string
+     *
+     * @param $string
+     *
+     * @return string
+     */
+    public function translate($string)
+    {
+        if (!$this->translateManager) {
+            return $string;
+        }
+
+        return $this->translateManager->translate($string);
     }
 
     /**
@@ -212,6 +245,51 @@ class TicketManager implements TicketManagerInterface
     public function getResolvedTicketOlderThan($days)
     {
         return $this->storageManager('getResolvedTicketOlderThan', $days);
+    }
+
+
+    /**
+     * Lookup status code.
+     *
+     * @param string $statusStr
+     *
+     * @return int
+     */
+    public function getTicketStatus($statusStr)
+    {
+        static $statuses = false;
+
+        if ($statuses === false) {
+            $statuses = [];
+
+            foreach (TicketMessageInterface::STATUSES as $id => $value) {
+                $statuses[$id] = $this->translate($value);
+            }
+        }
+
+        return \array_search($statusStr, $statuses);
+    }
+
+    /**
+     * Lookup priority code.
+     *
+     * @param string $priorityStr
+     *
+     * @return int
+     */
+    public function getTicketPriority($priorityStr)
+    {
+        static $priorities = false;
+
+        if ($priorities === false) {
+            $priorities = [];
+
+            foreach (TicketMessageInterface::PRIORITIES as $id => $value) {
+                $priorities[$id] = $this->translate($value);
+            }
+        }
+
+        return \array_search($priorityStr, $priorities);
     }
 
     /**
