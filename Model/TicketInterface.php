@@ -142,7 +142,7 @@ interface TicketInterface
      *
      * @return $this
      */
-    public function setCreatedAt($createdAt);
+    public function setCreatedAt(\DateTime $createdAt);
 
     /**
      * Get createdAt.
