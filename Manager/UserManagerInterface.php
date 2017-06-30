@@ -13,13 +13,6 @@ interface UserManagerInterface
     public function getCurrentUser();
 
     /**
-     * @param int $userId
-     *
-     * @return UserInterface|null
-     */
-    public function getUserById($userId);
-
-    /**
      * @param UserInterface $user
      *
      * @return bool
