@@ -21,11 +21,10 @@ interface UserManagerInterface
 
     /**
      * @param UserInterface $user
-     * @param string        $role
      *
      * @return bool
      */
-    public function hasRole(UserInterface $user, $role);
+    public function hasRole(UserInterface $user);
 
     /**
      * @param UserInterface|string $user
