@@ -177,13 +177,6 @@ interface TicketInterface
     public function addMessage(TicketMessageInterface $message);
 
     /**
-     * Remove message.
-     *
-     * @param TicketMessageInterface $message
-     */
-    public function removeMessage(TicketMessageInterface $message);
-
-    /**
      * Get messages.
      *
      * @return TicketMessageInterface[]
