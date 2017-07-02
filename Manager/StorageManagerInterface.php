@@ -2,6 +2,8 @@
 
 namespace Hackzilla\TicketMessage\Manager;
 
+use Pagerfanta\Pagerfanta;
+
 interface StorageManagerInterface
 {
     public function persist($entity);
@@ -9,7 +11,6 @@ interface StorageManagerInterface
     public function remove($entity);
 
     public function flush();
-
 
 
     public function getTicketById($ticketId);
@@ -29,12 +30,13 @@ interface StorageManagerInterface
     public function findTicketsBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
     /**
-     * @param int $ticketStatus
-     * @param int $ticketPriority
+     * @param int   $ticketStatus
+     * @param int   $ticketPriority
+     * @param array $orderBy field as the key and direction as the value
      *
-     * @return TicketInterface[]
+     * @return Pagerfanta[]
      */
-    public function getTicketList($ticketStatus, $ticketPriority = null);
+    public function getTicketList($ticketStatus, $ticketPriority = null, array $orderBy = null);
 
     /**
      * @param int $days

@@ -6,6 +6,7 @@ use Hackzilla\TicketMessage\Entity\TicketMessage;
 use Hackzilla\TicketMessage\Model\TicketInterface;
 use Hackzilla\TicketMessage\Model\TicketMessageInterface;
 use Hackzilla\TicketMessage\TicketEvents;
+use Pagerfanta\Pagerfanta;
 
 class TicketManager implements TicketManagerInterface
 {
@@ -230,7 +231,7 @@ class TicketManager implements TicketManagerInterface
      * @param int $ticketStatus
      * @param int $ticketPriority
      *
-     * @return TicketInterface[]
+     * @return Pagerfanta
      */
     public function getTicketList($ticketStatus, $ticketPriority = null)
     {
