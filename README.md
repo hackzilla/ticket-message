@@ -18,7 +18,21 @@ See [Ticket Bundle Demo App](https://github.com/hackzilla/TicketBundleDemoApp) f
 
 ## Setup
 
+### Event Manager (optional)
 
+Handle firing of events
+
+### Storage Manager
+
+Persisting and Flushing of the storage
+
+### Translate Manager (optional)
+
+Handles translating of priorities and status strings
+
+### User Manager
+
+Checking user permissions
 
 
 ## Pull Requests
