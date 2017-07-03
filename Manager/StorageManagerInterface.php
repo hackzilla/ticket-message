@@ -44,4 +44,11 @@ interface StorageManagerInterface
      * @return TicketInterface[]
      */
     public function getResolvedTicketOlderThan($days);
+
+    /**
+     * List of fields for which the ticket list can be ordered by
+     *
+     * @return string[]
+     */
+    public function getSortableFields();
 }
