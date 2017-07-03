@@ -228,14 +228,15 @@ class TicketManager implements TicketManagerInterface
     }
 
     /**
-     * @param int $ticketStatus
-     * @param int $ticketPriority
+     * @param int   $ticketStatus
+     * @param int   $ticketPriority
+     * @param array $orderBy field as the key and direction as the value
      *
      * @return Pagerfanta
      */
-    public function getTicketList($ticketStatus, $ticketPriority = null)
+    public function getTicketList($ticketStatus, $ticketPriority = null, array $orderBy = null)
     {
-        return $this->storageManager('getTicketList', $ticketStatus, $ticketPriority);
+        return $this->storageManager('getTicketList', $ticketStatus, $ticketPriority, $orderBy);
     }
 
     /**

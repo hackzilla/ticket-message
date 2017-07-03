@@ -78,12 +78,13 @@ interface TicketManagerInterface
     public function findTicketsBy(array $criteria);
 
     /**
-     * @param int $ticketStatus
-     * @param int $ticketPriority
+     * @param int   $ticketStatus
+     * @param int   $ticketPriority
+     * @param array $orderBy field as the key and direction as the value
      *
      * @return Pagerfanta
      */
-    public function getTicketList($ticketStatus, $ticketPriority = null);
+    public function getTicketList($ticketStatus, $ticketPriority = null, array $orderBy = null);
 
     /**
      * @param int $days
@@ -91,7 +92,7 @@ interface TicketManagerInterface
      * @return mixed
      */
     public function getResolvedTicketOlderThan($days);
-    
+
     /**
      * Lookup status code.
      *
