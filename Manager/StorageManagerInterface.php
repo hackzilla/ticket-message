@@ -34,7 +34,7 @@ interface StorageManagerInterface
      * @param int   $ticketPriority
      * @param array $orderBy field as the key and direction as the value
      *
-     * @return Pagerfanta[]
+     * @return Pagerfanta
      */
     public function getTicketList($ticketStatus, $ticketPriority = null, array $orderBy = null);
 
