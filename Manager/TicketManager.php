@@ -111,8 +111,6 @@ class TicketManager implements TicketManagerInterface
         $ticket->setPriority(TicketMessageInterface::PRIORITY_MEDIUM);
         $ticket->setStatus(TicketMessageInterface::STATUS_OPEN);
 
-        $this->fireEvent(TicketEvents::TICKET_CREATE);
-
         return $ticket;
     }
 
@@ -132,10 +130,8 @@ class TicketManager implements TicketManagerInterface
             $message->setPriority($ticket->getPriority());
             $message->setStatus($ticket->getStatus());
             $message->setTicket($ticket);
-            $this->fireEvent(TicketEvents::TICKET_CREATE);
         } else {
             $message->setStatus(TicketMessage::STATUS_OPEN);
-            $this->fireEvent(TicketEvents::TICKET_UPDATE);
         }
 
         return $message;
@@ -155,7 +151,10 @@ class TicketManager implements TicketManagerInterface
         $this->storageManager('persist', $ticket);
 
         if (is_null($ticket->getId())) {
+            $this->fireEvent(TicketEvents::TICKET_CREATE, $ticket);
             $this->storageManager('persist', $ticket);
+        } else {
+            $this->fireEvent(TicketEvents::TICKET_UPDATE, $ticket);
         }
 
         if (!\is_null($message)) {
@@ -175,7 +174,7 @@ class TicketManager implements TicketManagerInterface
      */
     public function deleteTicket(TicketInterface $ticket)
     {
-        $this->fireEvent(TicketEvents::TICKET_DELETE);
+        $this->fireEvent(TicketEvents::TICKET_DELETE, $ticket);
 
         $this->storageManager('remove', $ticket);
         $this->storageManager('flush');
