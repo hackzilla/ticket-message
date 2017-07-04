@@ -18,7 +18,7 @@ class TicketFeatures implements TicketFeatureInterface
     public function __construct(array $features = [])
     {
         foreach ($features as $feature) {
-            $this->setFeature($feature, true);
+            $this->setFeature($feature);
         }
     }
 
@@ -44,13 +44,12 @@ class TicketFeatures implements TicketFeatureInterface
      * set feature state
      *
      * @param string $feature
-     * @param bool   $state
      *
      * @return $this
      */
-    public function setFeature($feature, $state = true)
+    public function setFeature($feature)
     {
-        $this->features[strtoupper($feature)] = (bool) $state;
+        $this->features[strtoupper($feature)] = true;
 
         return $this;
     }
