@@ -2,6 +2,7 @@
 
 namespace Hackzilla\TicketMessage\Manager;
 
+use Hackzilla\TicketMessage\Model\UserInterface;
 use Pagerfanta\Pagerfanta;
 
 interface StorageManagerInterface
@@ -44,6 +45,13 @@ interface StorageManagerInterface
      * @return TicketInterface[]
      */
     public function getResolvedTicketOlderThan($days);
+
+    /**
+     * @param string $username
+     *
+     * @return UserInterface|null
+     */
+    public function getUser($username);
 
     /**
      * List of fields for which the ticket list can be ordered by

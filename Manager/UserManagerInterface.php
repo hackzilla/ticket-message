@@ -8,6 +8,13 @@ use Hackzilla\TicketMessage\Model\UserInterface;
 interface UserManagerInterface
 {
     /**
+     * @param string $username
+     *
+     * @return UserInterface|null
+     */
+    public function getUser($username);
+
+    /**
      * @return int|UserInterface
      */
     public function getCurrentUser();
